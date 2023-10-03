@@ -1,0 +1,55 @@
+#ROLES
+	t.string :role
+	
+#REDO
+	bundle exec rake db:migrate:redo
+	rails generate migration AddRoleToUsers role:string
+	
+#Test role
+def editor? 
+  self.role == 'editor' 
+end
+
+#before action
+	
+	  def require_editor
+    redirect_to '/' unless current_user.editor?
+  end
+  before_action :require_editor, only:
+  [:edit]
+  
+ #HTML
+<% if current_user && current_user.editor? %> 
+  <p class="recipe-edit"> 
+    <%= link_to "Edit Recipe", edit_recipe_path(@recipe.id) %> 
+  </p> 
+<% end %> 
+
+<% if current_user && current_user.admin? %> 
+  <p class="recipe-delete"><%= link_to "Delete", recipe_path(@recipe), method: "delete" %><p> 
+<% end %> 
+
+#Test admin
+
+> freida = User.find_by(email: 'freida@email.com') 
+> freida.admin?
+
+#Require admin
+  def require_admin
+    redirect_to '/' unless current_user.admin?
+  end
+  
+ #Create example:
+ https://guides.rubyonrails.org/active_record_basics.html#create
+ 
+ 
+ before_action :require_user, except: [:index]
+ before_action :require_author, only: [:edit, :update, :destroy]
+ 
+ 
+ #HTML
+ 
+ <% if current_user && current_user.author? %>
+  <%= link_to "Edit Article", edit_article_path(@article.id) %>
+  <%= link_to "Delete Article", article_path(@article.id), method: "delete" %>
+<% end %>

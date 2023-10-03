@@ -1,0 +1,166 @@
+#Generation
+
+$ rails new MySite 
+$ cd MySite
+$ bundle install 
+$ rails server
+
+#Controller
+
+$ rails generate controller Pages 
+
+app/controllers/pages_controller.rb: def home end
+config/routes.rb: get 'welcome', to: 'pages#home' OR root 'pages#home'
+
+#Set up
+
+app/views/pages/ - for pages
+app/assets/stylesheets - for stylesheets
+
+#Model
+
+$ rails generate model ModelName
+
+app/models/modelname.rb - model file
+db/migrate - update database
+	def change - changes to make in database
+		create_table - creates a table
+			t.text :content - creates column called content
+			t.timestamps - creates columns created_at and updated_at
+
+
+bundle exec rake db:migrate - updates the database
+bundle exec rake db:seed - seeds the database with db/seeds.rb
+
+*Inside controller*
+	skip_before_action :verify_authenticity_token - create messages w/o providing an authenticity token
+	resources :signups
+	
+#Standart Controller Actions: https://www.codecademy.com/article/standard-controller-actions
+
+#Create:
+	/messages/new
+	def new
+		@message = Message.new 
+	end
+	
+	/messages/create
+	post 'messages', to: 'messages#create'
+	def create
+		@message = Message.new(message_params)
+		if @message.save
+		  redirect_to '/messages'
+		else
+		  render 'new'
+		end
+	end
+	private 
+		def message_params 
+			params.require(:message).permit(:content) 
+		end
+	
+	HTML:
+		#Display
+		<div class="messages">
+		  <div class="container">
+		  
+		<% @messages.each do |message| %> 
+		  <div class="message"> 
+			<p class="content"><%= message.content %></p> 
+			<p class="time"><%= message.created_at %></p> 
+		  </div> 
+		<% end %> 
+		<%= link_to 'New Message', "messages/new" %> <!--param1: NAME, param2: URL-->
+		
+		
+		#Create
+		<div class="create">
+		  <div class="container">
+
+			<%= form_for(@message) do |f| %>  
+		  <div class="field"> 
+			<%= f.label :message %><br> 
+			<%= f.text_area :content %> 
+		  </div> 
+		  <div class="actions"> 
+			<%= f.submit "Create" %> 
+		  </div> 
+		<% end %> 
+		
+bundle exec rails routes - view all of the URLs and sources
+
+#Model relations:
+	#One-to-many
+	Tag - has_many :destinations
+	Destination - belongs_to :tag
+	*Migration*
+		t.references :tag - foreign key
+
+#Generic index function
+
+	def index
+		@books = Book.all
+	end
+	
+#Generic show function
+
+	def show
+		@album = Album.find(params[:id])
+		@tracks = @album.tracks
+	end
+	
+#LINK
+	<%= link_to(album) do %> <% end %>
+	<%= link_to "Learn more", movie_path(movie) %>
+	
+	
+#Many-to-many
+	*Movie
+	class Movie < ApplicationRecord
+	  has_many :parts
+	  has_many :actors, through: :parts
+	end
+	
+	*Actor
+	class Actor < ApplicationRecord
+	  has_many :parts
+	  has_many :movies, through: :parts
+	end
+	
+	*Part
+	class Part < ApplicationRecord
+	  belongs_to :movie
+	  belongs_to :actor
+	end
+	
+	*Part migration
+	t.belongs_to :movie, index: true 
+	t.belongs_to :actor, index: true 
+	
+	
+#Heroku:
+https://www.codecademy.com/article/deploy-rails-to-heroku
+
+#Portfolio:
+https://www.smashingmagazine.com/2013/06/workflow-design-develop-modern-portfolio-website/
+https://discuss.codecademy.com/t/guide-how-to-build-a-web-dev-portfolio/394816?_gl=1*la9ovy*_ga*MzYxMjc3MTE5MS4xNjkzNjY1NDY3*_ga_3LRZM6TM9L*MTY5NjI4MzY0Ni4yMS4xLjE2OTYyODY0MDUuNjAuMC4w
+https://www.fastcompany.com/3035190/designers-at-facebook-dropbox-and-pinterest-on-how-to-build-a-world-class-portfolio
+
+#Extra:
+	<%= yield %> - defines the portion of the layout that child templates can fill in
+	
+$ rails console (Ctrl+D - leave)
+$ Signup.all
+	
+create_table :signups do |t|
+      t.string :firstname
+      t.string :email
+      t.timestamps
+    end
+	
+<%= form_for(:session, url: login_path) do |f| %> 
+  <%= f.email_field :email, :placeholder => "Email" %> 
+  <%= f.password_field :password, :placeholder => "Password" %> 
+  <%= f.submit "Login", class: "btn-submit" %>
+<% end %>
+	

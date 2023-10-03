@@ -1,0 +1,44 @@
+
+<div class="tag">
+  <div class="container">
+    <h2 class="tag-title"> 
+    <%= @tag.title %> </h2>
+
+    <div class="cards row">
+
+      
+    <% @destinations.each do |d| %> 
+      <div class="card col-xs-4">
+        destination's image goes here
+        <h2> <%= d.name %> </h2>
+        <p> <%= d.description %> </p>
+      </div>
+    <% end %> 
+
+    </div>
+
+  </div>
+</div>
+
+		
+<%= link_to "Learn more", tag_path(tag) %>  - creates a link to see tag details
+
+#EDIT
+
+	<%= form_for(@destination) do |f| %>
+        <%= f.text_field :name %>
+        <%= f.text_field :description %>
+        <%= f.submit "Update", class: "btn" %>
+      <% end %> 
+	  
+#ROUTES:
+	resources :albums
+	
+	
+	get '/tags', to: 'tags#index'
+	get 'tags/:id', to: 'tags#show', as: :tag
+	get 'destinations/:id', to: 'destinations#show', as: :destination
+
+
+
+
