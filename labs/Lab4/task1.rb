@@ -70,7 +70,7 @@ def calculate_odd_even_sum(arr)
   end
 end
 
-#problem 7
+#problem 8
 def replace_repeated_values(arr)
   d = arr.dup
   nums = Hash.new
@@ -87,6 +87,24 @@ def replace_repeated_values(arr)
     end
   end
   d
+end
+
+#problem 9
+def sort_indexes(arr)
+  negative = []
+  zeros = []
+  positive = []
+  arr.each_with_index do |element, index|
+    case
+    when element < 0
+      negative << index
+    when element.zero?
+      zeros << index
+    else
+      positive << index
+    end
+  end
+  negative + zeros + positive
 end
 
 class TestCalculateFunction < MiniTest::Test
@@ -131,5 +149,10 @@ class TestCalculateFunction < MiniTest::Test
     assert_equal [], replace_repeated_values([])
     assert_equal [1, 1, 2, 3, 3, 4], replace_repeated_values([1, 2, 2, 2, 3, 2])
     assert_equal [1, 1, 2, 1, 2, 3], replace_repeated_values([1, 2, 2, 3, 3, 2])
+  end
+
+  def test_sort_indexes
+    assert_equal [], sort_indexes([])
+    assert_equal [6,7,8,3,4,5,0,1,2], sort_indexes([1, 2, 3, 0, 0, 0, -1, -2, -3])
   end
 end
