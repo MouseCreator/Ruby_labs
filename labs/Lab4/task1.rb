@@ -151,7 +151,7 @@ def sum_arrays_even_first(arr_a, arr_b)
   even + odd
 end
 
-class TestCalculateFunction < MiniTest::Test
+class TestProblems < MiniTest::Test
   def test_find_repeat_groups
     assert_equal 0, find_repeat_groups([1, 2, 3, 4, 1, 2])
     assert_equal 1, find_repeat_groups([1, 2, 2, 3])
