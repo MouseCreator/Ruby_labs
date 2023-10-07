@@ -29,6 +29,12 @@ def calculate_even_sum_index(arr)
   [element_sum, index_sum]
 end
 
+#problem 3
+
+def array_overlap(arr1, arr2)
+  arr1 & arr2
+end
+
 
 class TestCalculateFunction < MiniTest::Test
   def test_find_repeat_groups
@@ -42,5 +48,10 @@ class TestCalculateFunction < MiniTest::Test
   def test_calculate_even_sum_index
     assert_equal [6,4], calculate_even_sum_index([1.2, 2.2, 3.8, 4.5])
     assert_equal [0,0], calculate_even_sum_index([])
+  end
+  def test_overlap
+    assert_equal [3,4], array_overlap([1,2,3,4], [3,4,5,6])
+    assert_equal [], array_overlap([1,2,3,4], [5,6,7,8])
+    assert_equal [], array_overlap([], [1,2])
   end
 end
