@@ -46,6 +46,7 @@ def sqrt_sum(n)
   end
   result
 end
+
 def expression1
   alternating_sum(2, 10)
 end
@@ -74,8 +75,8 @@ def expression5
   sqrt_sum(3)
 end
 
-puts("Expression 1: #{expression1}")
-puts("Expression 2: #{expression2}")
-puts("Expression 3: #{expression3_auto}")
-puts("Expression 4: #{expression4}")
-puts("Expression 5: #{expression5}")
+puts("Expression 1: #{expression1}") # 1 - 2/3 * x + 3/4 * x^2 + ... + 11/12 x^10, x = 2
+puts("Expression 2: #{expression2}") # 1 + 1/3 + 1/9 + ... + 1/3^8
+puts("Expression 3: #{expression3_auto}") #1 + x/1! + x^2/2! + ... + x^10/10!, x =2
+puts("Expression 4: #{expression4}") # 1/sin1 + 1/(sin1 + sin2) + 1/(sin1 + sin2 + sin3) ...
+puts("Expression 5: #{expression5}") # sqrt(2 + sqrt(2 + sqrt(2 + ...)))
