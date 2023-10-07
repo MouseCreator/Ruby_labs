@@ -16,7 +16,7 @@ def find_repeat_groups(arr)
   count
 end
 
-#problem 2
+#problem 2 and 7
 def calculate_even_sum_index(arr)
   element_sum = 0
   index_sum = 0
@@ -28,6 +28,7 @@ def calculate_even_sum_index(arr)
   end
   [element_sum, index_sum]
 end
+
 
 #problem 3
 
@@ -61,7 +62,7 @@ def sign_sort(arr)
   end
   minus_arr + zero_arr + plus_arr
 end
-
+#problem 6
 def calculate_odd_even_sum(arr)
   arr.inject(0) do |result, element|
     result += element if element.even? && element < 0 || element.odd? && element > 0
@@ -69,6 +70,24 @@ def calculate_odd_even_sum(arr)
   end
 end
 
+#problem 7
+def replace_repeated_values(arr)
+  d = arr.dup
+  nums = Hash.new
+  arr.each_with_index do |element, index|
+    a = nums.key?(element) ? nums[element] : []
+    a << index
+    nums[element] = a
+  end
+
+  nums.each_value do |value|
+    next if value.length == 1
+    value.each_with_index do |element, index|
+      d[element] = (index+1)
+    end
+  end
+  d
+end
 
 class TestCalculateFunction < MiniTest::Test
   def test_find_repeat_groups
@@ -106,5 +125,11 @@ class TestCalculateFunction < MiniTest::Test
     assert_equal 0, calculate_odd_even_sum([])
     assert_equal 9, calculate_odd_even_sum([1,2,3,4,5])
     assert_equal 3, calculate_odd_even_sum([1,-2,3,-4,5])
+  end
+
+  def test_replace_repeated_values
+    assert_equal [], replace_repeated_values([])
+    assert_equal [1, 1, 2, 3, 3, 4], replace_repeated_values([1, 2, 2, 2, 3, 2])
+    assert_equal [1, 1, 2, 1, 2, 3], replace_repeated_values([1, 2, 2, 3, 3, 2])
   end
 end
