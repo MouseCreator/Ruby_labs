@@ -89,6 +89,23 @@ def replace_repeated_values(arr)
   d
 end
 
+#problem 10
+def merger(arr, odd_first)
+  odd = []
+  even = []
+  arr.each do |element|
+    if element.odd?
+      odd << element
+    else
+      even << element
+    end
+  end
+  odd_first ? odd + even : even + odd
+end
+def merge_arrays(arr1, arr2)
+  merger(arr2, false) + merger(arr1, true)
+end
+
 #problem 9
 def sort_indexes(arr)
   negative = []
@@ -154,5 +171,10 @@ class TestCalculateFunction < MiniTest::Test
   def test_sort_indexes
     assert_equal [], sort_indexes([])
     assert_equal [6,7,8,3,4,5,0,1,2], sort_indexes([1, 2, 3, 0, 0, 0, -1, -2, -3])
+  end
+
+  def test_merge_arrays
+    assert_equal [], merge_arrays([],[])
+    assert_equal [4,6,5,1,3,2], merge_arrays([1,2,3], [4,5,6])
   end
 end
