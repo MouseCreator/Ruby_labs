@@ -89,6 +89,24 @@ def replace_repeated_values(arr)
   d
 end
 
+#problem 9
+def sort_indexes(arr)
+  negative = []
+  zeros = []
+  positive = []
+  arr.each_with_index do |element, index|
+    case
+    when element < 0
+      negative << index
+    when element.zero?
+      zeros << index
+    else
+      positive << index
+    end
+  end
+  negative + zeros + positive
+end
+
 #problem 10
 def merger(arr, odd_first)
   odd = []
@@ -106,22 +124,13 @@ def merge_arrays(arr1, arr2)
   merger(arr2, false) + merger(arr1, true)
 end
 
-#problem 9
-def sort_indexes(arr)
-  negative = []
-  zeros = []
-  positive = []
-  arr.each_with_index do |element, index|
-    case
-    when element < 0
-      negative << index
-    when element.zero?
-      zeros << index
-    else
-      positive << index
-    end
-  end
-  negative + zeros + positive
+#problem 11
+def reverse_from_mid(arr)
+  n = arr.length
+  mid = n / 2
+  c1 = arr[0...mid].reverse
+  c2 = arr[mid...n].reverse
+  c1 + c2
 end
 
 class TestCalculateFunction < MiniTest::Test
@@ -176,5 +185,10 @@ class TestCalculateFunction < MiniTest::Test
   def test_merge_arrays
     assert_equal [], merge_arrays([],[])
     assert_equal [4,6,5,1,3,2], merge_arrays([1,2,3], [4,5,6])
+  end
+
+  def test_reverse_from_mid
+    assert_equal [], reverse_from_mid([])
+    assert_equal [3,2,1,6,5,4], reverse_from_mid([1,2,3,4,5,6])
   end
 end
