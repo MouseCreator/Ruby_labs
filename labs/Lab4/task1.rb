@@ -34,7 +34,7 @@ end
 def array_overlap(arr1, arr2)
   arr1 & arr2
 end
-
+#problem 4
 def shift(arr)
   copy = arr.dup
   if arr.empty?
@@ -43,6 +43,23 @@ def shift(arr)
   last = copy.last
   copy.pop
   copy.dup.unshift(last)
+end
+#problem 5
+def sign_sort(arr)
+  minus_arr = []
+  zero_arr = []
+  plus_arr = []
+  arr.each do |element|
+    case
+    when element < 0
+      minus_arr << element
+    when element ==0
+      zero_arr << element
+    else
+      plus_arr << element
+    end
+  end
+  minus_arr + zero_arr + plus_arr
 end
 
 
@@ -66,8 +83,15 @@ class TestCalculateFunction < MiniTest::Test
   end
 
   def test_shift
-    assert_equal [], shift([],)
+    assert_equal [], shift([])
     assert_equal [4,1,2,3], shift([1,2,3,4])
     assert_equal [1], shift([1])
+  end
+
+  def sign_sort
+    assert_equal [], shift([])
+    assert_equal [-2, -4, -5, 0, 0, 0, 1, 3, 6], shift([0, 1, -2, 0, 3, -4, -5, 6, 0])
+    assert_equal [1], shift([1])
+    assert_equal [-1, 1], shift([-1, 1])
   end
 end
