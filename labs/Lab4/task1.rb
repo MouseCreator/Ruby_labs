@@ -133,6 +133,24 @@ def reverse_from_mid(arr)
   c1 + c2
 end
 
+#problem 12
+def sum_arrays_even_first(arr_a, arr_b)
+  even = []
+  odd = []
+  if arr_a.length != arr_b.length
+    raise ArgumentError, "arr_a and arr_b are different lengths!"
+  end
+  arr_a.each_with_index do |element, index|
+    a = element.to_i
+    if a.even?
+      even << a + arr_b[index].to_i
+    else
+      odd << a + arr_b[index].to_i
+    end
+  end
+  even + odd
+end
+
 class TestCalculateFunction < MiniTest::Test
   def test_find_repeat_groups
     assert_equal 0, find_repeat_groups([1, 2, 3, 4, 1, 2])
@@ -190,5 +208,13 @@ class TestCalculateFunction < MiniTest::Test
   def test_reverse_from_mid
     assert_equal [], reverse_from_mid([])
     assert_equal [3,2,1,6,5,4], reverse_from_mid([1,2,3,4,5,6])
+  end
+
+  def test_sum_arrays_even_first
+    assert_equal [], sum_arrays_even_first([], [])
+    assert_equal [9,13,7,11,5], sum_arrays_even_first([1,2,3,4,5],[6,7,8,9,0])
+    assert_raises(ArgumentError) do
+      sum_arrays_even_first([], [1,2])
+    end
   end
 end
