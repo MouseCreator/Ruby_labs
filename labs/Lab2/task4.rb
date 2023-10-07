@@ -15,9 +15,6 @@ def to_binary(num)
 end
 
 
-
 input = 192
-
 binary = to_binary(input)
-
 puts("Number #{input} is #{binary} in binary form")

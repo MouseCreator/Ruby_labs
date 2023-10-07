@@ -1,5 +1,5 @@
 
-
+#calculate max number, which can be represented using t+1 digits, where r - the integer part of number (mod P)
 def range_calculator(p, t, r)
   (p ** r) * (1.0 - p ** (-t))
 end
