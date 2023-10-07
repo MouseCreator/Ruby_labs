@@ -11,8 +11,9 @@ end
 
 def power_sum(x, power)
   sum = 0
+  f = Float(x)
   (0..power).each do |i|
-    sum +=  (3.0 ** -i)
+    sum +=  (f ** -i)
   end
   sum
 end
@@ -58,9 +59,10 @@ end
 def expression3
   print "X:"
   x = gets.chomp.to_i
-  print "N:"
+  print "N [2-10]:"
   n = gets.chomp.to_i
-  factorial_sum(x,n)
+  n > 1 && n < 11 ?
+       factorial_sum(x,n) : 0
 end
 
 def expression3_auto
@@ -77,6 +79,6 @@ end
 
 puts("Expression 1: #{expression1}") # 1 - 2/3 * x + 3/4 * x^2 + ... + 11/12 x^10, x = 2
 puts("Expression 2: #{expression2}") # 1 + 1/3 + 1/9 + ... + 1/3^8
-puts("Expression 3: #{expression3_auto}") #1 + x/1! + x^2/2! + ... + x^10/10!, x =2
+puts("Expression 3: #{expression3_auto}") #1 + x/1! + x^2/2! + ... + x^10/10!, x = 2
 puts("Expression 4: #{expression4}") # 1/sin1 + 1/(sin1 + sin2) + 1/(sin1 + sin2 + sin3) ...
 puts("Expression 5: #{expression5}") # sqrt(2 + sqrt(2 + sqrt(2 + ...)))
