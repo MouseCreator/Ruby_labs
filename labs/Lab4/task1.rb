@@ -35,6 +35,16 @@ def array_overlap(arr1, arr2)
   arr1 & arr2
 end
 
+def shift(arr)
+  copy = arr.dup
+  if arr.empty?
+    return copy
+  end
+  last = copy.last
+  copy.pop
+  copy.dup.unshift(last)
+end
+
 
 class TestCalculateFunction < MiniTest::Test
   def test_find_repeat_groups
@@ -53,5 +63,11 @@ class TestCalculateFunction < MiniTest::Test
     assert_equal [3,4], array_overlap([1,2,3,4], [3,4,5,6])
     assert_equal [], array_overlap([1,2,3,4], [5,6,7,8])
     assert_equal [], array_overlap([], [1,2])
+  end
+
+  def test_shift
+    assert_equal [], shift([],)
+    assert_equal [4,1,2,3], shift([1,2,3,4])
+    assert_equal [1], shift([1])
   end
 end
