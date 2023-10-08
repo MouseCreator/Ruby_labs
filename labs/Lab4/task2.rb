@@ -40,6 +40,39 @@ def matrix_by_vector(a, v)
   a * v
 end
 
+
+def array_transpose(arr)
+  if arr.empty?
+    return []
+  end
+  n = arr[0].length
+  m = arr.length
+  transposed = Array.new(n) { Array.new(m, 0) }
+  (0...n).each do |i|
+    (0...m).each do |j|
+      transposed[i][j] = arr[j][i]
+    end
+  end
+  transposed
+end
+
+def array_matrix_vector_mult(matrix, vector_col)
+  if matrix[0].length != vector_col.length
+    raise ArgumentError, "dimension error"
+  end
+  n = vector_col.length
+  m = matrix.length
+  product = Array.new(m)
+  (0...m).each do |i|
+    s = 0
+    (0...n).each do |j|
+      s += matrix[i][j] * vector_col[j]
+    end
+    product[i] = s
+  end
+  product
+end
+
 class TestProblems < MiniTest::Test
   def test_multiply_by_num
     matrix = Matrix[[1,2,3],[4,5,6],[7,8,9]]
@@ -92,5 +125,20 @@ class TestProblems < MiniTest::Test
     a = Matrix[[1,2,3],[4,5,6],[7,8,9]]
     assert_equal(Matrix[[14], [32], [50]], vector_by_matrix(v2, a))
     assert_equal(Vector[38, 83, 128], matrix_by_vector(a, v))
+  end
+
+  def test_array_transpose
+    assert_equal([[1,4],[2,5],[3,6]], array_transpose([[1,2,3],[4,5,6]]))
+    assert_equal([], array_transpose([]))
+  end
+
+  def test_array_matrix_vector_mult
+    matrix = [[1,2,3],[4,5,6]]
+    vector = [7,8]
+    vector2 = [7,8, 9]
+    assert_raises(ArgumentError) do
+      array_matrix_vector_mult(matrix,vector)
+    end
+    assert_equal([50,122],  array_matrix_vector_mult(matrix,vector2))
   end
 end
