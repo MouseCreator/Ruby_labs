@@ -73,7 +73,7 @@ def array_matrix_vector_mult(matrix, vector_col)
   product
 end
 
-class TestProblems < MiniTest::Test
+class TestMatrixOperations < MiniTest::Test
   def test_multiply_by_num
     matrix = Matrix[[1,2,3],[4,5,6],[7,8,9]]
     assert_equal(Matrix[[2, 4, 6], [8, 10, 12], [14, 16, 18]], multiply_by_num(matrix, 2))
