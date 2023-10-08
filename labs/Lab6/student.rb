@@ -9,6 +9,17 @@ class Student
     @languages = builder.languages
   end
 
+  def dorm?
+    @dorm
+  end
+
+  def to_s
+    "Student: #{@name}, Need dorm: #{@dorm}, Experience: #{@experience}, Graduated: #{@graduated}, Knows: #{@languages}"
+  end
+  def inspect
+    "#{@name}"
+  end
+
   class StudentBuilder
     attr_reader :name, :dorm, :experience, :graduated, :languages
     def initialize
@@ -22,7 +33,7 @@ class Student
       self
     end
 
-    def dorm(dorm)
+    def is_dorm(dorm)
       @dorm = dorm
       self
     end
@@ -32,7 +43,7 @@ class Student
       self
     end
 
-    def graduated(univ)
+    def graduated_from(univ)
       @graduated = univ
       self
     end
@@ -63,13 +74,21 @@ class Student
   class StudentGenerator
     def generate
       students = []
-      students << StudentBuilder.new.with_name("Alice").graduated('ped').has_exp(0).add_lang('python').dorm(true).build
-      students << StudentBuilder.new.with_name("Bob").graduated('ped').has_exp(2).add_lang('java').dorm(true).build
-      students << StudentBuilder.new.with_name("Carl").graduated('meh').has_exp(0).add_lang('java').dorm(false).build
-      students << StudentBuilder.new.with_name("Diana").graduated('meh').has_exp(3).add_lang('cpp').dorm(false).build
-      students << StudentBuilder.new.with_name("Eric").graduated('bio').has_exp(0).add_lang('python').dorm(true).build
-      students << StudentBuilder.new.with_name("Fiona").graduated('ped').has_exp(2).add_lang('java').dorm(false).build
-      students << StudentBuilder.new.with_name("Greg").graduated('bio').has_exp(1).add_lang('cpp').add_lang('java').dorm(true).build
+      students << StudentBuilder.new.with_name("Alice").graduated_from('ped')
+                                .has_exp(0).add_lang('python')
+                                .is_dorm(true).build
+      students << StudentBuilder.new.with_name("Bob").graduated_from('ped')
+                                .has_exp(2).add_lang('java').is_dorm(true).build
+      students << StudentBuilder.new.with_name("Carl").graduated_from('meh')
+                                .has_exp(0).add_lang('java').is_dorm(false).build
+      students << StudentBuilder.new.with_name("Diana").graduated_from('meh')
+                                .has_exp(3).add_lang('cpp').is_dorm(false).build
+      students << StudentBuilder.new.with_name("Eric").graduated_from('bio')
+                                .has_exp(0).add_lang('python').is_dorm(true).build
+      students << StudentBuilder.new.with_name("Fiona").graduated_from('ped')
+                                .has_exp(2).add_lang('java').is_dorm(false).build
+      students << StudentBuilder.new.with_name("Greg").graduated_from('bio')
+                                .has_exp(1).add_lang('cpp').add_lang('java').is_dorm(true).build
       students
     end
   end
