@@ -38,6 +38,9 @@ def solve(a, b)
   if matrix.length != dim || matrix[0].length != dim
     raise ArgumentError, "matrix and vector have different dimensions"
   end
+
+  #forward elimination
+
   (0...dim).each do |index|
     diag = matrix[index][index]
     (index...dim).each do |i|
@@ -52,6 +55,8 @@ def solve(a, b)
       vector[i] -= diff * vector[index]
     end
   end
+
+  # back substitution
 
   (dim-1).downto(0) do |index|
     bc = vector[index]
@@ -93,5 +98,11 @@ class TestSystemSolve < MiniTest::Test
     assert(comp_double(x[2], 3.0/58.0), "x[2] = #{x[2]} != 3.0/58.0")
     assert(comp_double(x[3], -11.0/348.0), "x[3] = #{x[3]} != -11.0/348.0")
     assert(comp_double(x[4], -10.0/87.0), "x[4] = #{x[4]} != -10.0/87.0")
+
+    matrix2 = create_matrix(4,12)
+    b2 = create_b_vector(5)
+    assert_raises(ArgumentError) do
+      solve(matrix2, b2)
+    end
   end
 end
