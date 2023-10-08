@@ -8,14 +8,14 @@ end
 
 def calc_sum(series, x, n)
   sum = 0
-  (0..n).each do |i|
+  (1..n).each do |i|
     sum += series.call(x, i)
   end
   sum
 end
 def calc_sum_inf(series, x, eps)
   sum = 0
-  i = 0
+  i = 1
   loop do
     prev = sum
     sum += series.call(x, i)
