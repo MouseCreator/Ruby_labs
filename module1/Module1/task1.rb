@@ -58,7 +58,7 @@ end
 def compare_float(f1,f2,eps=0.000001)
   (f1-f2).abs < eps
 end
-class TestService < MiniTest::Test
+class TestCalculation < MiniTest::Test
   def test_raises
     assert_raises(ArgumentError) do
       tabulate_f(1,-1,2,0,0,0)
@@ -82,5 +82,10 @@ class TestService < MiniTest::Test
   def test_truncate
     act =  tabulate_f(2,1,4, 1, 2, 5)
     assert act.all? {|i| i.is_a?(Integer) }
+  end
+
+  def test_not_truncate
+    act =  tabulate_f(2,1,4, 1, 1, 1)
+    assert act.all? {|i| i.is_a?(Float) }
   end
 end
