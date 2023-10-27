@@ -5,11 +5,34 @@ class Customer
   attr_accessor :id, :surname, :name, :father, :birthdate, :address, :credit_card, :account_number
 
   def initialize(builder)
+    @id = builder.id
+    @surname = builder.surname
     @name = builder.name
-    @dorm = builder.dorm
-    @experience = builder.experience
-    @graduated = builder.graduated
-    @languages = builder.languages
+    @father = builder.father
+    @birthdate = builder.birthdate
+    @address = builder.address
+    @credit_card = builder.credit_card
+    @account_number = builder.account_number
+  end
+
+  def to_s
+    "Customer\n
+       ID: #{id}\n" \
+      "Name: #{name} #{father} #{surname}\n" \
+      "Birthdate: #{birthdate}\n" \
+      "Address: #{address}\n" \
+      "Credit Card: #{credit_card}\n" \
+      "Account Number: #{account_number}\n"
+  end
+
+
+
+  def set_tun
+
+  end
+
+  def get_tun
+
   end
 
 
@@ -25,79 +48,55 @@ class Customer
       @credit_card = 0
       @account_number = 0
     end
-    def id(id)
+    def w_id(id)
       @id = id
+      self
     end
     def with_name(full_name)
       words = full_name.split(" ")
-      if words.length > 2
-        @surname = words[0]
-        @name = words[1]
+      if words.length > 1 and words.length < 4
+        @name = words[0]
+        @surname = words[1]
         if words.length == 3
           @father = words[2]
         end
       else
         raise ArgumentError, "Expected string format 'Word1 Word2 Word3'"
       end
+      self
     end
-
-    def is_dorm(dorm)
-      @dorm = dorm
+    def today
+      @birthdate = Date.today
+      self
+    end
+    def w_address(addr)
+      @address = addr
+      self
+    end
+    def credit(card)
+      @credit_card = card
       self
     end
 
-    def has_exp(experience)
-      @experience = experience
+    def acc_id(bank_id)
+      @account_number = bank_id
       self
-    end
-
-    def graduated_from(univ)
-      @graduated = univ
-      self
-    end
-
-    def need_dorm
-      @dorm = true
-      self
-    end
-    def not_dorm
-      @dorm = false
-      self
-    end
-
-    def w_lang(languages)
-      @languages = languages
-      self
-    end
-    def add_lang(language)
-      @languages << language
-      self
-    end
-
-    def build
-      Student.new(self)
     end
   end
-
   class Generator
     def generate
-      students = []
-      students << StudentBuilder.new.with_name("Alice").graduated_from('ped')
-                                .has_exp(0).add_lang('python')
-                                .is_dorm(true).build
-      students << StudentBuilder.new.with_name("Bob").graduated_from('ped')
-                                .has_exp(2).add_lang('java').is_dorm(true).build
-      students << StudentBuilder.new.with_name("Carl").graduated_from('meh')
-                                .has_exp(0).add_lang('java').is_dorm(false).build
-      students << StudentBuilder.new.with_name("Diana").graduated_from('meh')
-                                .has_exp(3).add_lang('cpp').is_dorm(false).build
-      students << StudentBuilder.new.with_name("Eric").graduated_from('bio')
-                                .has_exp(0).add_lang('python').is_dorm(true).build
-      students << StudentBuilder.new.with_name("Fiona").graduated_from('ped')
-                                .has_exp(2).add_lang('java').is_dorm(false).build
-      students << StudentBuilder.new.with_name("Greg").graduated_from('bio')
-                                .has_exp(1).add_lang('cpp').add_lang('java').is_dorm(true).build
-      students
+      customers = []
+      customers << Builder.new.w_id(0).with_name("Athella Leyla Petrova").w_address("A street")
+                          .credit(1234).acc_id(5000)
+      customers << Builder.new.w_id(0).with_name("Askold Rivery Vasilich").w_address("B street")
+                          .credit(2345).acc_id(5001)
+      customers << Builder.new.w_id(0).with_name("Browry Seledy Pavlovich").w_address("A street")
+                          .credit(9999).acc_id(5002)
+      customers << Builder.new.w_id(0).with_name("Cilestia Miss Adamovna").w_address("D street")
+                          .credit(1111).acc_id(5003)
+      customers << Builder.new.w_id(0).with_name("Dina Mode Viktorovna").w_address("E street")
+                          .credit(1212).acc_id(5003)
+      customers
     end
   end
 
