@@ -1,6 +1,106 @@
 require 'minitest/autorun'
+require 'date'
 
-class Model
+class Customer
+  attr_accessor :id, :surname, :name, :father, :birthdate, :address, :credit_card, :account_number
+
+  def initialize(builder)
+    @name = builder.name
+    @dorm = builder.dorm
+    @experience = builder.experience
+    @graduated = builder.graduated
+    @languages = builder.languages
+  end
+
+
+  class Builder
+    attr_reader :id, :surname, :name, :father, :birthdate, :address, :credit_card, :account_number
+    def initialize
+      @id = 0
+      @surname = ""
+      @name = ""
+      @father = ""
+      @birthdate = Date.today
+      @address = ""
+      @credit_card = 0
+      @account_number = 0
+    end
+    def id(id)
+      @id = id
+    end
+    def with_name(full_name)
+      words = full_name.split(" ")
+      if words.length > 2
+        @surname = words[0]
+        @name = words[1]
+        if words.length == 3
+          @father = words[2]
+        end
+      else
+        raise ArgumentError, "Expected string format 'Word1 Word2 Word3'"
+      end
+    end
+
+    def is_dorm(dorm)
+      @dorm = dorm
+      self
+    end
+
+    def has_exp(experience)
+      @experience = experience
+      self
+    end
+
+    def graduated_from(univ)
+      @graduated = univ
+      self
+    end
+
+    def need_dorm
+      @dorm = true
+      self
+    end
+    def not_dorm
+      @dorm = false
+      self
+    end
+
+    def w_lang(languages)
+      @languages = languages
+      self
+    end
+    def add_lang(language)
+      @languages << language
+      self
+    end
+
+    def build
+      Student.new(self)
+    end
+  end
+
+  class Generator
+    def generate
+      students = []
+      students << StudentBuilder.new.with_name("Alice").graduated_from('ped')
+                                .has_exp(0).add_lang('python')
+                                .is_dorm(true).build
+      students << StudentBuilder.new.with_name("Bob").graduated_from('ped')
+                                .has_exp(2).add_lang('java').is_dorm(true).build
+      students << StudentBuilder.new.with_name("Carl").graduated_from('meh')
+                                .has_exp(0).add_lang('java').is_dorm(false).build
+      students << StudentBuilder.new.with_name("Diana").graduated_from('meh')
+                                .has_exp(3).add_lang('cpp').is_dorm(false).build
+      students << StudentBuilder.new.with_name("Eric").graduated_from('bio')
+                                .has_exp(0).add_lang('python').is_dorm(true).build
+      students << StudentBuilder.new.with_name("Fiona").graduated_from('ped')
+                                .has_exp(2).add_lang('java').is_dorm(false).build
+      students << StudentBuilder.new.with_name("Greg").graduated_from('bio')
+                                .has_exp(1).add_lang('cpp').add_lang('java').is_dorm(true).build
+      students
+    end
+  end
+
 
 end
 class Service
@@ -8,40 +108,3 @@ class Service
 end
 
 
-class TestService < MiniTest::Test
-  def test_matrix_creation
-    assert_raises(ArgumentError) do
-      create_matrix(2,12)
-    end
-    assert_raises(ArgumentError) do
-      create_matrix(12,12)
-    end
-    assert_equal([[2, 4, 4], [4, 2, 4], [4, 4, 2]], create_matrix(3,2))
-  end
-  def test_vector_creation
-    assert_raises(ArgumentError) do
-      create_b_vector(2)
-    end
-    assert_raises(ArgumentError) do
-      create_b_vector(12)
-    end
-    assert_equal([1,2,3,4,5], create_b_vector(5))
-  end
-
-  def test_solve
-    matrix = create_matrix(5,12)
-    b = create_b_vector(5)
-    x = solve(matrix, b)
-    assert(comp_double(x[0], 19.0/87.0), "x[0] = #{x[0]} != 47.0/348.0")
-    assert(comp_double(x[1], 47.0/348.0), "x[1] = #{x[1]} != 47.0/348.0")
-    assert(comp_double(x[2], 3.0/58.0), "x[2] = #{x[2]} != 3.0/58.0")
-    assert(comp_double(x[3], -11.0/348.0), "x[3] = #{x[3]} != -11.0/348.0")
-    assert(comp_double(x[4], -10.0/87.0), "x[4] = #{x[4]} != -10.0/87.0")
-
-    matrix2 = create_matrix(4,12)
-    b2 = create_b_vector(5)
-    assert_raises(ArgumentError) do
-      solve(matrix2, b2)
-    end
-  end
-end
